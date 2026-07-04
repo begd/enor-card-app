@@ -84,7 +84,7 @@ function ScreenHost() {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: direction * -26 }}
         transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-        style={{ position: "absolute", inset: 0, overflow: "hidden" }}
+        style={{ position: "absolute", inset: 0, overflowY: "auto", overflowX: "hidden" }}
       >
         <Comp />
       </motion.div>
