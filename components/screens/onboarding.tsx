@@ -4,11 +4,12 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Delete, ShieldCheck, ScanFace, FileText, CheckCircle2, XCircle } from "lucide-react";
 import { useApp } from "@/lib/store";
-import { Screen, Header, Button, Steps, Field, Input, Panel, Badge, Spinner } from "@/components/ui";
+import { Screen, Header, Button, Steps, Field, Input, Panel, Badge, Spinner, BareScreen } from "@/components/ui";
 
 export function Splash() {
   const { nav, jump } = useApp();
   return (
+    <BareScreen>
     <div className="flex flex-col items-center justify-center text-center" style={{ minHeight: "100%", padding: 28 }}>
       <motion.div
         initial={{ scale: 0.6, opacity: 0 }}
@@ -35,6 +36,7 @@ export function Splash() {
         </button>
       </motion.div>
     </div>
+    </BareScreen>
   );
 }
 
@@ -86,6 +88,7 @@ export function Passcode() {
     if (next.length === 6) setTimeout(() => nav(isLogin ? "kyc-approved" : "terms1", { replace: true }), 260);
   };
   return (
+    <BareScreen>
     <div className="flex flex-col" style={{ minHeight: "100%", padding: "8px 24px 28px" }}>
       <Header back={!isLogin} transparent />
       <div className="flex flex-col items-center" style={{ marginTop: isLogin ? 40 : 8 }}>
@@ -118,6 +121,7 @@ export function Passcode() {
         )}
       </div>
     </div>
+    </BareScreen>
   );
 }
 
@@ -207,6 +211,7 @@ export function KycRedirect() {
 export function KycPending() {
   const { nav } = useApp();
   return (
+    <BareScreen>
     <div className="flex flex-col items-center justify-center text-center" style={{ minHeight: "100%", padding: 32 }}>
       <Badge tone="warning">Em análise</Badge>
       <div className="my-7"><Spinner size={44} /></div>
@@ -218,6 +223,7 @@ export function KycPending() {
         <button onClick={() => nav("kyc-rejected", { replace: true })} style={{ marginTop: 12, background: "none", border: "none", color: "var(--ink-3)", fontSize: 13, cursor: "pointer" }}>Simular recusa</button>
       </div>
     </div>
+    </BareScreen>
   );
 }
 
@@ -239,6 +245,7 @@ export function KycRejected() {
 export function KycApproved() {
   const { jump } = useApp();
   return (
+    <BareScreen>
     <div className="flex flex-col items-center justify-center text-center" style={{ minHeight: "100%", padding: 32 }}>
       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 200, damping: 14 }} className="grid place-items-center mb-6" style={{ width: 92, height: 92, borderRadius: "50%", background: "rgba(79,214,160,0.14)" }}>
         <CheckCircle2 size={48} color="var(--success)" />
@@ -250,5 +257,6 @@ export function KycApproved() {
         <button onClick={() => jump("home", "home")} style={{ marginTop: 12, background: "none", border: "none", color: "var(--ink-3)", fontSize: 13.5, cursor: "pointer" }}>Explorar o app primeiro</button>
       </div>
     </div>
+    </BareScreen>
   );
 }

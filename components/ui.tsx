@@ -20,9 +20,11 @@ export function Header({
   const { back: goBack } = useApp();
   return (
     <header
-      className="sticky top-0 z-20 flex items-center justify-between px-5"
+      className="flex items-center justify-between px-5"
       style={{
+        flexShrink: 0,
         minHeight: 60,
+        zIndex: 20,
         background: transparent
           ? "linear-gradient(to bottom, var(--obsidian) 38%, rgba(5,6,10,0.6) 68%, transparent)"
           : "linear-gradient(to bottom, var(--obsidian) 55%, transparent)",
@@ -119,6 +121,36 @@ export function Panel({
 }
 
 /* ── Screen scaffold ── */
+function partitionHeader(children: React.ReactNode) {
+  const headers: React.ReactNode[] = [];
+  const body: React.ReactNode[] = [];
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement(child) && child.type === Header) headers.push(child);
+    else body.push(child);
+  });
+  return { headers, body };
+}
+
+const scrollAreaStyle: React.CSSProperties = {
+  flex: 1,
+  minHeight: 0,
+  overflowY: "auto",
+  overflowX: "hidden",
+  WebkitOverflowScrolling: "touch",
+  overscrollBehavior: "contain",
+  touchAction: "pan-y",
+};
+
+export function BareScreen({ children }: { children: React.ReactNode }) {
+  const { headers, body } = partitionHeader(children);
+  return (
+    <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      {headers}
+      <div style={scrollAreaStyle}>{body}</div>
+    </div>
+  );
+}
+
 export function Screen({
   children,
   bottomNav,
@@ -130,19 +162,18 @@ export function Screen({
   fixedCta?: React.ReactNode;
   noPad?: boolean;
 }) {
+  const { headers, body } = partitionHeader(children);
   return (
-    <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column" }}>
+    <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      {headers}
       <div
         style={{
-          flex: 1,
-          minHeight: 0,
-          overflowY: "auto",
-          overflowX: "hidden",
+          ...scrollAreaStyle,
           padding: noPad ? 0 : "4px 20px 20px",
           paddingBottom: bottomNav ? 96 : fixedCta ? 24 : 28,
         }}
       >
-        {children}
+        {body}
       </div>
       {fixedCta && (
         <div

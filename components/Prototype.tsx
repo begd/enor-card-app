@@ -76,19 +76,15 @@ function ScreenHost() {
   const { screen, direction } = useApp();
   const Comp = REGISTRY[screen] || Splash;
   return (
-    <AnimatePresence mode="popLayout" custom={direction} initial={false}>
-      <motion.div
-        key={screen}
-        custom={direction}
-        initial={{ opacity: 0, x: direction * 26 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: direction * -26 }}
-        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-        style={{ position: "absolute", inset: 0, overflowY: "auto", overflowX: "hidden" }}
-      >
-        <Comp />
-      </motion.div>
-    </AnimatePresence>
+    <motion.div
+      key={screen}
+      initial={{ opacity: 0, x: direction * 18 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+      style={{ position: "absolute", inset: 0, overflow: "hidden" }}
+    >
+      <Comp />
+    </motion.div>
   );
 }
 
